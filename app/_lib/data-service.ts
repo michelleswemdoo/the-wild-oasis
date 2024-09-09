@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { eachDayOfInterval } from 'date-fns';
 import { supabase } from './supabase';
-import { Guest } from '../_types';
+import { CountryProps, Guest } from '../_types';
 
 /////////////
 // GET
@@ -141,7 +141,7 @@ export async function getCountries() {
     const res = await fetch(
       'https://restcountries.com/v2/all?fields=name,flag',
     );
-    const countries = await res.json();
+    const countries: Array<CountryProps> = await res.json();
     return countries;
   } catch {
     throw new Error('Could not fetch countries');

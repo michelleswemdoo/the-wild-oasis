@@ -62,3 +62,9 @@ export type Bookings = {
     };
   }[];
 };
+
+export type CountryProps = {
+  name: string;
+  flag: string;
+  independent: boolean;
+};
