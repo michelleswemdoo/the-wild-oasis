@@ -28,39 +28,30 @@ export type BookingProps = {
   cabinId: string;
 };
 
-export type SingleBooking = {
-  booking: {
-    id: number;
-    created_at: Date;
-    startDate: Date;
-    endDate: Date;
-    numNights: number;
-    numGuests: number;
-    totalPrice: number;
-    guestId: number;
-    cabinId: string;
-    cabins: {
-      name: string;
-      image: string;
-    };
-  };
+interface Cabin {
+  name: string;
+  image: string;
+}
+
+export type AllBookings = {
+  id: number;
+  created_at: Date;
+  startDate: Date;
+  endDate: Date;
+  numNights: number;
+  numGuests: number;
+  totalPrice: number;
+  guestId: number;
+  cabinId: string;
+  cabins: Cabin;
 };
+
+export type SingleBooking = {
+  booking: AllBookings;
+};
+
 export type Bookings = {
-  bookings: {
-    id: number;
-    created_at: Date;
-    startDate: Date;
-    endDate: Date;
-    numNights: number;
-    numGuests: number;
-    totalPrice: number;
-    guestId: number;
-    cabinId: string;
-    cabins: {
-      name: string;
-      image: string;
-    };
-  }[];
+  bookings: AllBookings[];
 };
 
 export type CountryProps = {

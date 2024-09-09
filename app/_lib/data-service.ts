@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { eachDayOfInterval } from 'date-fns';
 import { supabase } from './supabase';
-import { CountryProps, Guest } from '../_types';
+import { CountryProps, Guest, AllBookings } from '../_types';
 
 /////////////
 // GET
@@ -86,12 +86,13 @@ export async function getBookings(guestId: number) {
     .eq('guestId', guestId)
     .order('startDate');
 
+  console.log(data);
   if (error) {
     console.error(error);
     throw new Error('Bookings could not get loaded');
   }
-
-  return data;
+  const bookings = data as unknown as AllBookings[];
+  return bookings;
 }
 
 export async function getBookedDatesByCabinId(cabinId: string) {
