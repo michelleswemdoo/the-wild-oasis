@@ -86,7 +86,6 @@ export async function getBookings(guestId: number) {
     .eq('guestId', guestId)
     .order('startDate');
 
-  console.log(data);
   if (error) {
     console.error(error);
     throw new Error('Bookings could not get loaded');

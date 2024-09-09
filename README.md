@@ -2,7 +2,7 @@
 
 A cabin reservation application.
 
-### Preview : https://rent-listings.vercel.app/
+### Preview : the-wild-oasis-rho-gules.vercel.app/
 
 ## Setup Instructions
 
