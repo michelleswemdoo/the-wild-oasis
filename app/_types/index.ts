@@ -42,7 +42,7 @@ export type SingleBooking = {
     cabins: {
       name: string;
       image: string;
-    }[];
+    };
   };
 };
 export type Bookings = {
@@ -59,6 +59,6 @@ export type Bookings = {
     cabins: {
       name: string;
       image: string;
-    }[];
+    };
   }[];
 };
