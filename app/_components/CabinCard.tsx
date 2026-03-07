@@ -22,6 +22,7 @@ function CabinCard({ cabin }: CabinCardProps) {
         <Image
           src={image}
           fill
+          sizes="(max-width: 768px) 100vw, 33vw"
           alt={`Cabin ${name}`}
           className="border-r border-primary-800 object-cover"
         />
