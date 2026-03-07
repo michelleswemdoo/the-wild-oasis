@@ -2,11 +2,12 @@ import Image from 'next/image';
 import image1 from '@/public/about-1.jpg';
 import { getCabins } from '../_lib/data-service';
 
-export const revalidate = 86400;
+// export const revalidate = 86400;
 
 export const metadata = {
   title: 'About',
 };
+export const dynamic = 'force-dynamic';
 
 export default async function Page() {
   const cabins = await getCabins();

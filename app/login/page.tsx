@@ -3,6 +3,7 @@ import SignInButton from '../_components/SignInButton';
 export const metadata = {
   title: 'Login',
 };
+export const dynamic = 'force-dynamic';
 
 export default function Page() {
   return (

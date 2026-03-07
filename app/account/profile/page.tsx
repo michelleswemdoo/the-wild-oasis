@@ -6,6 +6,7 @@ import { getGuest } from '@/app/_lib/data-service';
 export const metadata = {
   title: 'Update profile',
 };
+export const dynamic = 'force-dynamic';
 
 export default async function Page() {
   const session = await auth();

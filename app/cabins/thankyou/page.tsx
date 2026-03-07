@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default function Page() {
   return (
     <div className="mt-4 space-y-6 text-center">
