@@ -1,6 +1,5 @@
 import { auth } from '../_lib/auth';
 
-export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Guest area',
