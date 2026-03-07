@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { eachDayOfInterval } from 'date-fns';
 import { supabase } from './supabase';
 import { CountryProps, Guest, AllBookings } from '../_types';
+import { unstable_noStore as noStore } from 'next/cache';
 
 /////////////
 // GET
@@ -36,6 +37,7 @@ export async function getCabinPrice(id: string) {
 }
 
 export const getCabins = async function () {
+   noStore();
   const { data, error } = await supabase
 
     .from('cabins')
@@ -52,7 +54,7 @@ export const getCabins = async function () {
 
 // Guests are uniquely identified by their email address
 export async function getGuest(email: string) {
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from('guests')
     .select('*')
     .eq('email', email)
@@ -63,7 +65,7 @@ export async function getGuest(email: string) {
 }
 
 export async function getBooking(id: number) {
-  const { data, error, count } = await supabase
+  const { data, error} = await supabase
     .from('bookings')
     .select('*')
     .eq('id', id)
@@ -74,6 +76,7 @@ export async function getBooking(id: number) {
     throw new Error('Booking could not get loaded');
   }
 
+  
   return data;
 }
 

@@ -18,6 +18,8 @@ export const metadata = {
 };
 
 export default function Page({ searchParams }: PageProps) {
+
+   
   const filter = searchParams?.capacity ?? 'all';
 
   return (
