@@ -37,7 +37,7 @@ export async function getCabinPrice(id: string) {
 }
 
 export const getCabins = async function () {
-   noStore();
+  noStore();
   const { data, error } = await supabase
 
     .from('cabins')
@@ -52,6 +52,24 @@ export const getCabins = async function () {
   return data;
 };
 
+/** Full cabin fields for natural-language search (not used in list cards). */
+export async function getCabinsForSearch() {
+  noStore();
+  const { data, error } = await supabase
+    .from('cabins')
+    .select(
+      'id, name, maxCapacity, regularPrice, discount, image, description',
+    )
+    .order('name');
+
+  if (error) {
+    console.error(error);
+    throw new Error('Cabins could not be loaded');
+  }
+
+  return data;
+}
+
 // Guests are uniquely identified by their email address
 export async function getGuest(email: string) {
   const { data } = await supabase
@@ -65,7 +83,7 @@ export async function getGuest(email: string) {
 }
 
 export async function getBooking(id: number) {
-  const { data, error} = await supabase
+  const { data, error } = await supabase
     .from('bookings')
     .select('*')
     .eq('id', id)
@@ -76,7 +94,6 @@ export async function getBooking(id: number) {
     throw new Error('Booking could not get loaded');
   }
 
-  
   return data;
 }
 

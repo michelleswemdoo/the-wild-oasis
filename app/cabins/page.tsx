@@ -1,8 +1,9 @@
 import * as React from 'react';
-import CabinList from '../_components/CabinList';
-import Spinner from '../_components/Spinner';
-import Filter from '../_components/Filter';
+import { auth } from '../_lib/auth';
+import CabinsExplorer from '../_components/CabinsExplorer';
 import ReservationReminder from '../_components/ReservationReminder';
+import Spinner from '../_components/Spinner';
+import { getCabins } from '../_lib/data-service';
 import { Capacity } from '../_types';
 
 type PageProps = {
@@ -17,10 +18,27 @@ export const metadata = {
   title: 'Cabins',
 };
 
-export default function Page({ searchParams }: PageProps) {
+async function CabinsExplorerSection({
+  filter,
+  isLoggedIn,
+}: {
+  filter: Capacity;
+  isLoggedIn: boolean;
+}) {
+  const cabins = await getCabins();
 
-   
+  return (
+    <CabinsExplorer
+      initialCabins={cabins}
+      capacityFilter={filter}
+      isLoggedIn={isLoggedIn}
+    />
+  );
+}
+
+export default async function Page({ searchParams }: PageProps) {
   const filter = searchParams?.capacity ?? 'all';
+  const session = await auth();
 
   return (
     <div>
@@ -36,14 +54,25 @@ export default function Page({ searchParams }: PageProps) {
         Welcome to paradise.
       </p>
 
-      <div className="mb-8 flex justify-end">
-        <Filter />
-      </div>
-
-      <React.Suspense fallback={<Spinner />} key={filter}>
-        <CabinList filter={filter} />
-        <ReservationReminder />
+      <React.Suspense
+        key={filter}
+        fallback={
+          <div
+            role="status"
+            aria-live="polite"
+            className="flex items-center gap-3 text-primary-300"
+          >
+            <Spinner />
+            <span className="sr-only">Loading cabins...</span>
+          </div>
+        }
+      >
+        <CabinsExplorerSection
+          filter={filter}
+          isLoggedIn={Boolean(session?.user)}
+        />
       </React.Suspense>
+      <ReservationReminder />
     </div>
   );
 }

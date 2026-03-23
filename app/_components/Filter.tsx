@@ -24,7 +24,11 @@ function Filter() {
   }
 
   return (
-    <div className="flex border border-primary-800">
+    <div
+      className="flex border border-primary-800"
+      role="group"
+      aria-label="Filter cabins by guest capacity"
+    >
       <Button
         filter="all"
         handleFilter={handleFilter}
@@ -58,12 +62,14 @@ function Filter() {
 }
 
 function Button({ filter, handleFilter, activeFilter, children }: Button) {
+  const isActive = filter === activeFilter;
   return (
     <button
       className={`px-5 py-2 hover:bg-primary-700 ${
-        filter === activeFilter ? 'bg-primary-700 text-primary-50' : ''
+        isActive ? 'bg-primary-700 text-primary-50' : ''
       }`}
       onClick={() => handleFilter(filter)}
+      aria-pressed={isActive}
     >
       {children}
     </button>

@@ -1,43 +1,69 @@
-# The wild oasis
+# The Wild Oasis
 
-A cabin reservation application.
+The Wild Oasis is a cabin reservation application built with Next.js and Supabase.
 
-### Preview :https://the-wild-oasis-rho-gules.vercel.app/
+Live preview: https://the-wild-oasis-rho-gules.vercel.app/
 
-## Setup Instructions
+## Current Features
+
+- Cabin discovery with capacity filters
+- Natural-language cabin search with deterministic ranking
+- Inline conversational search flow (single input for search + conversation)
+- Login-aware booking intent handling in conversation
+- Booking confirmation flow from conversation (`confirm booking`) with server-side validation
+- Google authentication with NextAuth
+- Guest profile and reservation management
+
+## Tech Stack
+
+- Next.js (App Router) + React + TypeScript
+- Tailwind CSS
+- Supabase (`@supabase/supabase-js`)
+- NextAuth (Google provider)
+- date-fns
+- react-day-picker
+- Heroicons
+- AI SDK (`ai`) + Groq provider (`@ai-sdk/groq`) for assistant reply generation
+
+## Environment Variables
+
+Create a `.env` or `.env.local` file with:
 
 ```sh
-install node.js
+SUPABASE_URL=...
+SUPABASE_KEY=...
+AUTH_GOOGLE_ID=...
+AUTH_GOOGLE_SECRET=...
+GROQ_API_KEY=... # optional, used for assistant-style reply text
 ```
 
-### Helps you to write tools for local development.
+## Getting Started
+
+Install dependencies:
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development and Manages packages on your local computer, for development.
+Run in development:
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production run all task for production.
+Create a production build:
 
 ```sh
 npm run build
 ```
 
-### Tools and library
+Start the production server:
 
-##### React + Next.js + TypeScript + Tailwind
+```sh
+npm run start
+```
 
-##### next-auth
+## Notes
 
-##### date-fns
-
-##### @supabase/supabase-js
-
-##### heroicons/react
-
-##### react-day-picker
+- Booking creation is protected by authentication checks on the server.
+- In demo mode, booking creation can be restricted by backend rules (for example, one booking per guest).
