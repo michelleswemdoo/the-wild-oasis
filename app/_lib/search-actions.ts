@@ -106,6 +106,10 @@ function extractConversationSlots(text: string): Partial<ConversationState> {
   const guests =
     digit ? Number(digit) : word && numberWords[word] ? numberWords[word] : undefined;
   const { startDate, endDate } = extractDateRangeFromText(q);
+  const cabinNameMatch = q.match(/\bcabin\s*([0-9]{1,3})\b/i);
+  const selectedCabinName = cabinNameMatch
+    ? String(cabinNameMatch[1]).padStart(3, '0')
+    : undefined;
 
   return {
     guests,
@@ -114,6 +118,7 @@ function extractConversationSlots(text: string): Partial<ConversationState> {
     wantsQuiet: /\bquiet|cozy|peaceful|private|calm|tranquil\b/i.test(q),
     startDate,
     endDate,
+    selectedCabinName,
   };
 }
 
@@ -299,6 +304,16 @@ export async function converseCabinsAssistant(
   const search = await searchCabinsNatural(builtQuery);
   if (!search.ok) return { ok: false, reply: search.error, state, cabins: [] };
 
+  if (state.selectedCabinName) {
+    const selectedByName = search.cabins.find(
+      (c) => c.name === state.selectedCabinName,
+    );
+    if (selectedByName) {
+      state.selectedCabinId = selectedByName.id;
+      state.selectedCabinName = selectedByName.name;
+    }
+  }
+
   if (!state.selectedCabinId && search.cabins[0]) {
     state.selectedCabinId = search.cabins[0].id;
     state.selectedCabinName = search.cabins[0].name;
@@ -363,6 +378,22 @@ export async function converseCabinsAssistant(
     return {
       ok: true,
       reply: `${search.message} Top options: ${top}. I selected Cabin ${state.selectedCabinName ?? state.selectedCabinId} as the default option.${missingText} You can share details in separate messages (e.g. "2 guests", "2026-05-10 to 2026-05-13"), then click Confirm booking.`,
+      state,
+      cabins: search.cabins,
+    };
+  }
+
+  if (bookingBlocked) {
+    const missing: string[] = [];
+    if (!state.guests) missing.push('guest count');
+    if (!state.startDate || !state.endDate) missing.push('check-in and check-out dates');
+    const detailsText = missing.length
+      ? ` I can still collect ${missing.join(' and ')} now.`
+      : '';
+
+    return {
+      ok: false,
+      reply: `You need to log in before I can place a booking. Please sign in at /login.${detailsText}`,
       state,
       cabins: search.cabins,
     };
