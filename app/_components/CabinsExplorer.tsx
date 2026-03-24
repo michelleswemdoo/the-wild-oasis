@@ -39,12 +39,7 @@ export default function CabinsExplorer({
   const [queryText, setQueryText] = React.useState('');
   const [conversationState, setConversationState] =
     React.useState<ConversationState>({});
-  const [messages, setMessages] = React.useState<ChatMessage[]>([
-    {
-      role: 'assistant',
-      text: 'Describe your ideal cabin and I will suggest the best matches.',
-    },
-  ]);
+  const [messages, setMessages] = React.useState<ChatMessage[]>([]);
 
   const displayed = React.useMemo(() => {
     const source = natural?.cabins ?? initialCabins;
@@ -90,12 +85,7 @@ export default function CabinsExplorer({
     setNatural(null);
     setError(null);
     setQueryText('');
-    setMessages([
-      {
-        role: 'assistant',
-        text: 'Describe your ideal cabin and I will suggest the best matches.',
-      },
-    ]);
+    setMessages([]);
     setConversationState({});
   }
 
@@ -112,7 +102,7 @@ export default function CabinsExplorer({
             htmlFor="natural-search"
             className="text-sm font-medium text-primary-200"
           >
-            Describe your ideal cabin
+            Describe your ideal cabin and I will suggest the best matches.
           </label>
           <div className="flex flex-wrap gap-2">
             <input
@@ -161,20 +151,22 @@ export default function CabinsExplorer({
             </p>
           )}
 
-          <div className="max-h-56 space-y-2 overflow-y-auto rounded-sm border border-primary-800 bg-primary-900/40 p-3">
-            {messages.map((m, i) => (
-              <p
-                key={`${m.role}-${i}`}
-                className={
-                  m.role === 'assistant'
-                    ? 'rounded-md bg-primary-800 p-3 text-sm text-primary-100'
-                    : 'rounded-md bg-accent-500/10 p-3 text-sm text-accent-100'
-                }
-              >
-                {m.text}
-              </p>
-            ))}
-          </div>
+          {messages.length > 0 && (
+            <div className="max-h-56 space-y-2 overflow-y-auto rounded-sm border border-primary-800 bg-primary-900/40 p-3">
+              {messages.map((m, i) => (
+                <p
+                  key={`${m.role}-${i}`}
+                  className={
+                    m.role === 'assistant'
+                      ? 'rounded-md bg-primary-800 p-3 text-sm text-primary-100'
+                      : 'rounded-md bg-accent-500/10 p-3 text-sm text-accent-100'
+                  }
+                >
+                  {m.text}
+                </p>
+              ))}
+            </div>
+          )}
 
           {canConfirmBooking && (
             <div className="flex flex-wrap items-center gap-3 rounded-sm border border-primary-800 bg-primary-900/40 p-3">
